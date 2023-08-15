@@ -44,7 +44,7 @@ const steps = [
 export default function Page() {
   const [credit, setCredit] = useState<number>(0);
   const { activeStep, setActiveStep } = useSteps({
-    index: 2,
+    index: 0,
     count: steps.length,
   });
 
