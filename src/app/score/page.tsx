@@ -26,7 +26,8 @@ import {
   useSteps,
   useToast,
   Image,
-  useBreakpointValue
+  useBreakpointValue,
+  Flex,
 } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
@@ -62,8 +63,7 @@ export default function Page() {
   const buttonSize = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
 
   return (
-    <>
-      <Box bg="gray.100" minHeight="100vh">
+      <Flex direction="column" minHeight="100vh" bg="gray.100">
         <Box as="section" w="100%">
           <Container maxW="100%">
             <Box bg="bg.surface" py="4" boxShadow="sm" borderRadius="lg" display="flex" justifyContent="space-between" alignItems="center">
@@ -75,40 +75,44 @@ export default function Page() {
           </Container>
         </Box>
 
-        <Container maxW={{ base: "90%", md: "80%", lg: "70%" }} py={{ base: "3", md: "6" }}>
+      <Flex flex="1" direction="column">
+        <Container maxW={{ base: "90%", md: "80%", lg: "70%" }} py={{ base: "3", md: "6" }} paddingBottom="60px"> {/* Added paddingBottom */}
           <Box bg="white" borderRadius="lg" p={5}>
             <Stack spacing={1}>
               <Stepper currentStep={activeStep} setStep={setActiveStep} />
               {activeStep === 0 && <ScoringStep credit={credit} setCredit={setCredit} subStep={subStep} setSubStep={setSubStep} />}
               {activeStep === 1 && <ProductsStep credit={credit} />}
               {activeStep === 2 && <EmailStep />}
-              <ButtonGroup mt="3" size="sm">
-                {activeStep > 0 || subStep > 0 ? (
-                  <Button
-                    size={buttonSize}
-                    variant="outline"
-                    leftIcon={<FiArrowLeft />}
-                    onClick={handleBack}
-                  >
-                    Back
-                  </Button>
-                ) : null}
-                {activeStep !== 2 && credit !== 0 && (
-                  <Button
+            </Stack>
+          </Box>
+        </Container>
+      </Flex>
+
+      <Flex
+            position="sticky"
+            bottom="0"
+            left="0"
+            right="0"
+            bg="white"
+            padding="4"
+            borderTop="1px solid"
+            borderColor="gray.200"
+            justifyContent="flex-end"
+            zIndex="100"
+            height="80px"
+        >
+            {activeStep !== 2 && credit !== 0 && (
+                <Button
                     size={buttonSize}
                     rightIcon={<FiArrowRight />}
                     colorScheme="teal"
                     variant="outline"
                     onClick={handleContinue}
-                  >
+                >
                     Continue
-                  </Button>
-                )}
-              </ButtonGroup>
-            </Stack>
-          </Box>
-        </Container>
-      </Box>
-    </>
-  );
+                </Button>
+            )}
+        </Flex>
+    </Flex>
+);
 }
