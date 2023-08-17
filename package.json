@@ -11,7 +11,8 @@
   "browser": {
     "fs": false,
     "path": false,
-    "os": false
+    "os": false,
+    "tls": false,
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",
