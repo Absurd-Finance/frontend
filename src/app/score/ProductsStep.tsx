@@ -52,8 +52,8 @@ import {
   
   interface ProductCardProps {
     title: string;
-    price: string;
-    termsComponent: JSX.Element;
+    price: number;
+    children: React.ReactNode;
   }
   
   const ProductCard: React.FC<ProductCardProps> = ({ title, price, children }) => (
@@ -113,23 +113,24 @@ import {
           justifyItems="center"
           gap={4}
         >
-
           <ProductCard
             minW={minWidth}
             flex="1"
             title="Best seller"
             price="15"
-            LoanTerms terms={standardTerms}
-          />
-            {/* <Card></Card>
+          >
+              <LoanTerms terms={standardTerms} />
+          </ProductCard>
+            {/*
           <ProductCard
             minW={minWidth}
             flex="1"
             title="Metal"
             price="15"
-            termsComponent={<LoanTerms title="extra" terms={metalTerms} />}
+            LoanTerms terms={metalTerms} />}
           />
-            </Card> */}
+            </ProductCard>
+            */}
 
         </Flex>
       </Box>
