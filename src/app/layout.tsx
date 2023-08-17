@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { Providers } from "./providers";
+import { Providers, PHProvider, PostHogPageview } from "./providers";
 
 export const metadata: Metadata = {
   title: "Credit NFT",
@@ -15,7 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <PHProvider>
+          <PostHogPageview />
+          <Providers>{children}</Providers>
+        </PHProvider>
       </body>
     </html>
   );

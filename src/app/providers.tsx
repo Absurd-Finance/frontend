@@ -15,8 +15,81 @@ import {
 } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import { useEffect, createContext, useContext } from 'react';
+import { useState } from 'react';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+const PostHogContext = createContext(null);
+
+let posthogInstance;
+
+if (typeof window !== 'undefined') {
+  import('posthog-js').then(posthogModule => {
+    posthogInstance = posthogModule.default;
+    posthogInstance.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST!
+    });
+  });
+}
+
+function PHProvider({ children }) {
+  const [posthog, setPosthog] = useState(posthogInstance);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      import('posthog-js').then(posthogModule => {
+        const ph = posthogModule.default;
+        ph.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+          api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST!
+        });
+        setPosthog(ph);
+      });
+    }
+  }, []);
+
+  if (!posthog) {
+    return null; // add loading spinner 
+  }
+
+  return (
+    <PostHogContext.Provider value={posthog}>
+      {children}
+    </PostHogContext.Provider>
+  );
+}
+
+function PostHogPageview() {
+  const posthog = usePostHog();
+
+  useEffect(() => {
+      if (!posthog) return;
+
+      const capturePageview = () => {
+          posthog.capture('$pageview', {
+              '$current_url': window.location.href,
+          });
+      };
+
+      capturePageview();
+
+      window.addEventListener('popstate', capturePageview);
+
+      return () => {
+          window.removeEventListener('popstate', capturePageview);
+      };
+  }, [posthog]);
+
+  return null;
+}
+
+function usePostHog() {
+  const context = useContext(PostHogContext);
+  if (context === null) {
+    throw new Error("usePostHog must be used within a PHProvider.");
+  }
+  return context;
+}
+
+function Providers({ children }: { children: React.ReactNode }) {
   const { chains, publicClient } = configureChains(
     [mainnet, polygon, optimism, arbitrum, base, sepolia],
     [
@@ -47,3 +120,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
     </WagmiConfig>
   );
 }
+
+export { PostHogPageview, PHProvider, Providers, usePostHog };

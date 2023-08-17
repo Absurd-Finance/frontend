@@ -37,20 +37,28 @@ import { ScoringStep } from "./ScoringStep";
 import { ProductsStep } from "./ProductsStep";
 import { EmailStep } from "./EmailStep";
 import { Stepper } from "../../components/StepsWithCirclesAndText/Stepper";
+import { usePostHog } from "../../app/providers";
 
 export default function Page() {
   const [credit, setCredit] = useState<number>(0);
   const [activeStep, setActiveStep] = useState(0);
   const [subStep, setSubStep] = useState(0);
   
+  const posthog = usePostHog();
+
   const handleContinue = () => {
+    posthog.capture('Continue clicked', {
+        'activeStep': activeStep,
+        'subStep': subStep
+    });
+
     if (activeStep === 0 && subStep === 0) {
       setSubStep(1);
     } else {
       setActiveStep(activeStep + 1);
       setSubStep(0);
     }
-  };  
+};
 
   const handleBack = () => {
     if (activeStep === 0 && subStep === 1) {
@@ -63,11 +71,11 @@ export default function Page() {
   const buttonSize = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
 
   return (
-      <Flex direction="column" minHeight="100vh" bg="gray.100">
-        <Box as="section" w="100%">
+    <Flex direction="column" minHeight="100vh" bg="gray.100">
+      <Box as="section" w="100%">
           <Container maxW="100%">
             <Box bg="bg.surface" py="4" boxShadow="sm" borderRadius="lg" display="flex" justifyContent="space-between" alignItems="center">
-              <Image src="/images/logo.png" alt="Your Logo" width="51px" height="40px"/>
+              <Image src="/images/logo.png" alt="Absurd Logo" width="51px" height="40px"/>
               <Stack spacing="1">
                 <ConnectButton />
               </Stack>
@@ -75,7 +83,7 @@ export default function Page() {
           </Container>
         </Box>
 
-      <Flex flex="1" direction="column">
+      <Flex flex="1" direction="column" paddingBottom="80px">
         <Container maxW={{ base: "90%", md: "80%", lg: "70%" }} py={{ base: "3", md: "6" }} paddingBottom="60px"> {/* Added paddingBottom */}
           <Box bg="white" borderRadius="lg" p={5}>
             <Stack spacing={1}>
@@ -100,7 +108,11 @@ export default function Page() {
             justifyContent="flex-end"
             zIndex="100"
             height="80px"
+            width="100%"
+            boxShadow="sm" 
         >
+            <Container maxW={{ base: "90%", md: "80%", lg: "70%" }}>
+               <Flex justifyContent="flex-end">
             {activeStep !== 2 && credit !== 0 && (
                 <Button
                     size={buttonSize}
@@ -112,7 +124,9 @@ export default function Page() {
                     Continue
                 </Button>
             )}
+                </Flex>
+              </Container>
         </Flex>
     </Flex>
 );
-}
+};
