@@ -14,7 +14,6 @@ import {
   StepIndicator,
   StepSeparator,
   StepStatus,
-  Stepper,
   Table,
   TableContainer,
   Tbody,
@@ -36,7 +35,7 @@ import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { ScoringStep } from "./ScoringStep";
 import { ProductsStep } from "./ProductsStep";
 import { EmailStep } from "./EmailStep";
-import { App } from "../../components/StepsWithCirclesAndText/App";
+import { Stepper } from "../../components/StepsWithCirclesAndText/Stepper";
 
 export default function Page() {
   const [credit, setCredit] = useState<number>(0);
@@ -79,7 +78,7 @@ export default function Page() {
         <Container maxW={{ base: "90%", md: "80%", lg: "70%" }} py={{ base: "3", md: "6" }}>
           <Box bg="white" borderRadius="lg" p={5}>
             <Stack spacing={1}>
-              <App currentStep={activeStep} setStep={setActiveStep} />
+              <Stepper currentStep={activeStep} setStep={setActiveStep} />
               {activeStep === 0 && <ScoringStep setCredit={setCredit} subStep={subStep} setSubStep={setSubStep} />}
               {activeStep === 1 && <ProductsStep credit={credit} />}
               {activeStep === 2 && <EmailStep />}

@@ -7,7 +7,7 @@ interface AppProps {
   setStep: (step: number) => void;
 }
 
-export const App: React.FC<AppProps> = ({ currentStep, setStep }) => {
+export const Stepper: React.FC<AppProps> = ({ currentStep, setStep }) => {
   return (
     <Box bg="bg.surface">
       <Container py={{ base: '4', md: '8' }}>
@@ -29,4 +29,4 @@ export const App: React.FC<AppProps> = ({ currentStep, setStep }) => {
 }
 
 
-export default App;
+export default Stepper;

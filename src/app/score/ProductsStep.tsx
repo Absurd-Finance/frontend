@@ -56,7 +56,7 @@ import {
     termsComponent: JSX.Element;
   }
   
-  const ProductCard: React.FC<ProductCardProps> = ({ title, price, termsComponent }) => (
+  const ProductCard: React.FC<ProductCardProps> = ({ title, price, children }) => (
     <Card
       bg="gray.100" 
       boxShadow="lg"
@@ -80,11 +80,11 @@ import {
           >
             {price}&euro;/mo
           </Text>
-          {termsComponent}
+          {children}
         </Stack>
       </CardBody>
     </Card>
-  );
+);
     
   interface ProductsStepProps {
     credit: number;
@@ -119,7 +119,7 @@ import {
             flex="1"
             title="Best seller"
             price="15"
-            termsComponent={<LoanTerms terms={standardTerms} />}
+            LoanTerms terms={standardTerms}
           />
             {/* <Card></Card>
           <ProductCard
