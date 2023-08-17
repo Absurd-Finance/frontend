@@ -1,6 +1,6 @@
 import { Avatar, Button, Flex, HStack, Text } from "@chakra-ui/react";
 
-export const MarketCard = ({ avatarSrc, token, number1, number2, number3 }) => (
+export const MarketCard = ({ avatarSrc, token, number1, number2, number3 }: { avatarSrc: string, token: string, number1: string, number2: string, number3: string }) => (
   <Flex
     align="center"
     justify="space-between"

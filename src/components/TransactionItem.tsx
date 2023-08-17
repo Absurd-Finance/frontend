@@ -30,7 +30,6 @@ export const TransactionItem = ({
   value,
 }: TransactionItemProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
 
   return (
     <>
@@ -41,8 +40,6 @@ export const TransactionItem = ({
             boxShadow="md"
             borderRadius="lg"
             p={{ base: "4", md: "6" }}
-            ref={btnRef}
-            colorScheme="teal"
             onClick={onOpen}
           >
             <Flex

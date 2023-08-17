@@ -52,7 +52,7 @@ import {
   
   interface ProductCardProps {
     title: string;
-    price: number;
+    price: string;
     children: React.ReactNode;
   }
   
@@ -90,7 +90,7 @@ import {
     credit: number;
   }
   
-  export const ProductsStep = ({ credit }) => {
+  export const ProductsStep = ({ credit }: { credit: number }) => {
     const standardTerms = [
       `Revolving credit line of ${credit * 10}&euro;/mo`,
       "Visa credit card with zero transaction fees",
@@ -112,10 +112,10 @@ import {
           justify="center"
           justifyItems="center"
           gap={4}
+          minW={minWidth}
+          flex="1"
         >
           <ProductCard
-            minW={minWidth}
-            flex="1"
             title="Best seller"
             price="15"
           >

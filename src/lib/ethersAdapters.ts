@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { type PublicClient, usePublicClient } from 'wagmi'
 import { type WalletClient, useWalletClient } from 'wagmi'
-import { FallbackProvider, BrowserProvider, JsonRpcSigner } from 'ethers'
+import { FallbackProvider, BrowserProvider, JsonRpcSigner, JsonRpcProvider } from 'ethers'
 import { type HttpTransport } from 'viem'
 
 export function publicClientToProvider(publicClient: PublicClient) {

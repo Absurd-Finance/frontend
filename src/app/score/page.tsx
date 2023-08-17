@@ -79,7 +79,7 @@ export default function Page() {
           <Box bg="white" borderRadius="lg" p={5}>
             <Stack spacing={1}>
               <Stepper currentStep={activeStep} setStep={setActiveStep} />
-              {activeStep === 0 && <ScoringStep setCredit={setCredit} subStep={subStep} setSubStep={setSubStep} />}
+              {activeStep === 0 && <ScoringStep credit={credit} setCredit={setCredit} subStep={subStep} setSubStep={setSubStep} />}
               {activeStep === 1 && <ProductsStep credit={credit} />}
               {activeStep === 2 && <EmailStep />}
               <ButtonGroup mt="3" size="sm">
