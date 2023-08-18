@@ -57,8 +57,6 @@ function PHProvider({ children }) {
   );
 }
 
-<<<<<<< HEAD
-=======
 function usePostHog() {
   const context = useContext(PostHogContext);
   if (context === null) {
@@ -67,7 +65,6 @@ function usePostHog() {
   return context;
 }
 
->>>>>>> 319cc48 (EmailStep changes, copy and PostHog integration)
 function PostHogPageview() {
   const posthog = usePostHog();
 
@@ -92,17 +89,6 @@ function PostHogPageview() {
   return null;
 }
 
-<<<<<<< HEAD
-function usePostHog() {
-  const context = useContext(PostHogContext);
-  if (context === null) {
-    throw new Error("usePostHog must be used within a PHProvider.");
-  }
-  return context;
-}
-
-=======
->>>>>>> 319cc48 (EmailStep changes, copy and PostHog integration)
 function Providers({ children }: { children: React.ReactNode }) {
   const { chains, publicClient } = configureChains(
     [mainnet, polygon, optimism, arbitrum, base, sepolia],
@@ -135,8 +121,4 @@ function Providers({ children }: { children: React.ReactNode }) {
   );
 }
 
-<<<<<<< HEAD
 export { PostHogPageview, PHProvider, Providers, usePostHog };
-=======
-export { PostHogPageview, PHProvider, Providers, usePostHog };
->>>>>>> 319cc48 (EmailStep changes, copy and PostHog integration)

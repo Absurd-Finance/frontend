@@ -59,10 +59,6 @@ export default function Page() {
       setSubStep(0);
     }
 };
-<<<<<<< HEAD
-=======
-
->>>>>>> 319cc48 (EmailStep changes, copy and PostHog integration)
 
   const handleBack = () => {
     if (activeStep === 0 && subStep === 1) {
@@ -132,10 +128,5 @@ export default function Page() {
               </Container>
         </Flex>
     </Flex>
-);
-<<<<<<< HEAD
+  );
 };
-=======
-}
-
->>>>>>> 319cc48 (EmailStep changes, copy and PostHog integration)

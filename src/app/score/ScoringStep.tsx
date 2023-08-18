@@ -48,13 +48,6 @@ import { truncateEthereumAddress } from "@/lib/helpers";
 
 import chains from "./chains.json";
 
-<<<<<<< HEAD
-posthog.init('phc_j1olUatMVYOKCdbnXj6EskxwYL2lq0IKcnD3B691c6q', {
-  api_host: 'https://eu.posthog.com'
-});
-=======
->>>>>>> 319cc48 (EmailStep changes, copy and PostHog integration)
-
 interface ScoringStepProps {
   credit: number;
   setCredit: React.Dispatch<React.SetStateAction<number>>;
