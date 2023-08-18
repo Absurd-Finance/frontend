@@ -160,7 +160,7 @@ export const ScoringStep = ({ credit, setCredit, subStep, setSubStep }: ScoringS
       {subStep === 0 ? (
         <Stack spacing="7" mt="5">
           <Heading size={"lg"}>Connect an account</Heading>
-          <Text>Applying for your self-custodial credit card is quick and easy, start by connecting up to 3 wallets. Don't worry, you can apply for better credit line after too by adding transactional wallets later from your account.</Text>
+          <Text>Applying for your self-custodial credit card is quick and easy, start by connecting up to 3 wallets. Don&apos;t worry, you can apply for better credit line after too by adding transactional wallets later from your account.</Text>
           <Text mb={10}>
             For more information on how your score is calculated, visit{" "}
             <Link href="https://github.com/Absurd-finance/whitepaper/blob/master/README.md" isExternal color="blue.500">
