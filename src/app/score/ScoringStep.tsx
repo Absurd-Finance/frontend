@@ -2,8 +2,11 @@ import {
   Box,
   Button,
   Container,
+  Flex,
+  HStack,
   Heading,
   IconButton,
+  Link,
   Skeleton,
   Stack,
   Step,
@@ -20,13 +23,10 @@ import {
   Th,
   Thead,
   Tr,
+  useBreakpointValue,
   useDisclosure,
   useSteps,
   useToast,
-  Link,
-  useBreakpointValue,
-  HStack,
-  Flex,
 } from "@chakra-ui/react";
 import {
   ConnectButton,
@@ -34,13 +34,12 @@ import {
   useChainModal,
   useConnectModal,
 } from "@rainbow-me/rainbowkit";
+import posthog from "posthog-js";
+import React, { useEffect, useState } from "react";
+import Confetti from "react-confetti";
 import { FiTrash2 } from "react-icons/fi";
 import { Address } from "viem";
 import { useAccount, useSignMessage, useWalletClient } from "wagmi";
-import React, { useState, useEffect } from 'react';
-import Confetti from 'react-confetti';
-import posthog from 'posthog-js';
-
 
 import { analysePortfolioTrend, runScoringChecks } from "@/lib/analysis";
 import { QuoteCurrency } from "@/lib/api";
@@ -48,14 +47,17 @@ import { truncateEthereumAddress } from "@/lib/helpers";
 
 import chains from "./chains.json";
 
-interface ScoringStepProps {
+export const ScoringStep = ({
+  credit,
+  setCredit,
+  subStep,
+  setSubStep,
+}: {
   credit: number;
-  setCredit: React.Dispatch<React.SetStateAction<number>>;
-  subStep: number;
-  setSubStep: React.Dispatch<React.SetStateAction<number>>;
-}
-
-export const ScoringStep = ({ credit, setCredit, subStep, setSubStep }: ScoringStepProps) => {
+  setCredit: any;
+  subStep: any;
+  setSubStep: any;
+}) => {
   const [value, setValue] = useState<number>(0);
   const [wallets, setWallets] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -95,13 +97,13 @@ export const ScoringStep = ({ credit, setCredit, subStep, setSubStep }: ScoringS
     const result = 100; //await runScoringChecks(address, chains, QuoteCurrency.EUR);
 
     const obj = {
-      address: address,
+      address,
       score: Math.ceil(result),
     };
     setWallets((wallets) => [...wallets, obj]);
-    setCredit(obj.score); 
+    setCredit(obj.score);
     setIsLoading(false);
-};
+  };
 
   const updateValue = (newValue: number) => {
     const val = value + newValue;
@@ -109,11 +111,11 @@ export const ScoringStep = ({ credit, setCredit, subStep, setSubStep }: ScoringS
     setCredit(val);
   };
 
-  const addressExistsInWallets = (address: Address) => {
+  const addressExistsInWallets = (address: Address | undefined) => {
     return wallets.some((wallet) => wallet.address === address);
-  };  
+  };
 
-  const handleDeleteWallet = (address: Address) => {
+  const handleDeleteWallet = (address: Address | undefined) => {
     const updatedWallets = wallets.filter(
       (wallet) => wallet.address !== address
     );
@@ -128,17 +130,21 @@ export const ScoringStep = ({ credit, setCredit, subStep, setSubStep }: ScoringS
     const number = `${credit * 10}€/mo`;
     return (
       <Flex direction="column" align="center" justify="center" height="100px">
-      <HStack spacing={2}>
-        {number.split('').map((char, index) => (
-          <Text key={index} fontSize="4xl" fontWeight="bold" color={gradientColors[index % gradientColors.length]}>
-            {char}
-          </Text>
-        ))}
-      </HStack>
+        <HStack spacing={2}>
+          {number.split("").map((char, index) => (
+            <Text
+              key={index}
+              fontSize="4xl"
+              fontWeight="bold"
+              color={gradientColors[index % gradientColors.length]}
+            >
+              {char}
+            </Text>
+          ))}
+        </HStack>
       </Flex>
     );
-};
-
+  };
 
   const [runConfetti, setRunConfetti] = useState(false);
 
@@ -160,19 +166,31 @@ export const ScoringStep = ({ credit, setCredit, subStep, setSubStep }: ScoringS
       {subStep === 0 ? (
         <Stack spacing="7" mt="5">
           <Heading size={"lg"}>Connect an account</Heading>
-          <Text>Applying for your self-custodial credit card is quick and easy, start by connecting up to 3 wallets. Don&apos;t worry, you can apply for better credit line after too by adding transactional wallets later from your account.</Text>
+          <Text>
+            Applying for your self-custodial credit card is quick and easy,
+            start by connecting up to 3 wallets. Don&apos;t worry, you can apply
+            for better credit line after too by adding transactional wallets
+            later from your account.
+          </Text>
           <Text mb={10}>
             For more information on how your score is calculated, visit{" "}
-            <Link href="https://github.com/Absurd-finance/whitepaper/blob/master/README.md" isExternal color="blue.500">
-            this link
-            </Link>.
-            </Text>
+            <Link
+              href="https://github.com/Absurd-finance/whitepaper/blob/master/README.md"
+              isExternal
+              color="blue.500"
+            >
+              this link
+            </Link>
+            .
+          </Text>
           <Box width="100%" overflowX="auto">
             <Table variant="simple">
               <Thead>
                 <Tr>
                   <Th width="60%">Address</Th>
-                  <Th width="30%" isNumeric>Score</Th>
+                  <Th width="30%" isNumeric>
+                    Score
+                  </Th>
                   <Th width="10%"></Th>
                 </Tr>
               </Thead>
@@ -207,14 +225,20 @@ export const ScoringStep = ({ credit, setCredit, subStep, setSubStep }: ScoringS
             </Table>
           </Box>
           {addressExistsInWallets(address) ? (
-            <Button size={buttonSize} onClick={openAccountModal}>Add another wallet</Button>
+            <Button size={buttonSize} onClick={openAccountModal}>
+              Add another wallet
+            </Button>
           ) : (
-            <Button size={buttonSize} onClick={() => signMessage()}>Add connected wallet</Button>
+            <Button size={buttonSize} onClick={() => signMessage()}>
+              Add connected wallet
+            </Button>
           )}
         </Stack>
       ) : (
         <Stack spacing="8" mt="5" alignItems="center" justifyContent="center">
-          <Heading size={"lg"}>Congrats! You are eligible for a credit line of </Heading>
+          <Heading size={"lg"}>
+            Congrats! You are eligible for a credit line of{" "}
+          </Heading>
           <GradientNumber credit={credit} />
         </Stack>
       )}

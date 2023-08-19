@@ -4,6 +4,8 @@ import { CacheProvider } from "@chakra-ui/next-js";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
+import { createContext, useContext, useEffect } from "react";
+import { useState } from "react";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
 import {
   arbitrum,
@@ -15,31 +17,29 @@ import {
 } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { useEffect, createContext, useContext } from 'react';
-import { useState } from 'react';
 
 const PostHogContext = createContext(null);
 
-let posthogInstance;
+let posthogInstance: any;
 
-if (typeof window !== 'undefined') {
-  import('posthog-js').then(posthogModule => {
+if (typeof window !== "undefined") {
+  import("posthog-js").then((posthogModule) => {
     posthogInstance = posthogModule.default;
     posthogInstance.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST!
+      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST!,
     });
   });
 }
 
-function PHProvider({ children }) {
+function PHProvider({ children }: { children: React.ReactNode }) {
   const [posthog, setPosthog] = useState(posthogInstance);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      import('posthog-js').then(posthogModule => {
+    if (typeof window !== "undefined") {
+      import("posthog-js").then((posthogModule) => {
         const ph = posthogModule.default;
         ph.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-          api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST!
+          api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST!,
         });
         setPosthog(ph);
       });
@@ -47,7 +47,7 @@ function PHProvider({ children }) {
   }, []);
 
   if (!posthog) {
-    return null; // add loading spinner 
+    return null; // add loading spinner
   }
 
   return (
@@ -66,24 +66,24 @@ function usePostHog() {
 }
 
 function PostHogPageview() {
-  const posthog = usePostHog();
+  const posthog: any = usePostHog();
 
   useEffect(() => {
-      if (!posthog) return;
+    if (!posthog) return;
 
-      const capturePageview = () => {
-          posthog.capture('$pageview', {
-              '$current_url': window.location.href,
-          });
-      };
+    const capturePageview = () => {
+      posthog.capture("$pageview", {
+        $current_url: window.location.href,
+      });
+    };
 
-      capturePageview();
+    capturePageview();
 
-      window.addEventListener('popstate', capturePageview);
+    window.addEventListener("popstate", capturePageview);
 
-      return () => {
-          window.removeEventListener('popstate', capturePageview);
-      };
+    return () => {
+      window.removeEventListener("popstate", capturePageview);
+    };
   }, [posthog]);
 
   return null;

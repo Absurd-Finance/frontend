@@ -14,8 +14,6 @@ import {
   StatHelpText,
   StatLabel,
   StatNumber,
-  Text,
-  useToast,
 } from "@chakra-ui/react";
 
 import { Sidebar } from "@/components/Sidebar";

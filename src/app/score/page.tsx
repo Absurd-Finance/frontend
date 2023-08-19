@@ -5,9 +5,11 @@ import {
   Button,
   ButtonGroup,
   Container,
+  Flex,
   HStack,
   Heading,
   IconButton,
+  Image,
   Stack,
   Step,
   StepIcon,
@@ -22,34 +24,32 @@ import {
   Th,
   Thead,
   Tr,
+  useBreakpointValue,
   useDisclosure,
   useSteps,
   useToast,
-  Image,
-  useBreakpointValue,
-  Flex,
 } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
-import { ScoringStep } from "./ScoringStep";
-import { ProductsStep } from "./ProductsStep";
-import { EmailStep } from "./EmailStep";
-import { Stepper } from "../../components/StepsWithCirclesAndText/Stepper";
 import { usePostHog } from "../../app/providers";
+import { Stepper } from "../../components/StepsWithCirclesAndText/Stepper";
+import { EmailStep } from "./EmailStep";
+import { ProductsStep } from "./ProductsStep";
+import { ScoringStep } from "./ScoringStep";
 
 export default function Page() {
   const [credit, setCredit] = useState<number>(0);
   const [activeStep, setActiveStep] = useState(0);
   const [subStep, setSubStep] = useState(0);
-  
-  const posthog = usePostHog();
+
+  const posthog: any = usePostHog();
 
   const handleContinue = () => {
-    posthog.capture('Continue clicked', {
-        'activeStep': activeStep,
-        'subStep': subStep
+    posthog.capture("Continue clicked", {
+      activeStep,
+      subStep,
     });
 
     if (activeStep === 0 && subStep === 0) {
@@ -58,7 +58,7 @@ export default function Page() {
       setActiveStep(activeStep + 1);
       setSubStep(0);
     }
-};
+  };
 
   const handleBack = () => {
     if (activeStep === 0 && subStep === 1) {
@@ -73,22 +73,48 @@ export default function Page() {
   return (
     <Flex direction="column" minHeight="100vh" bg="gray.100">
       <Box as="section" w="100%">
-          <Container maxW="100%">
-            <Box bg="bg.surface" py="4" boxShadow="sm" borderRadius="lg" display="flex" justifyContent="space-between" alignItems="center">
-              <Image src="/images/logo.png" alt="Absurd Logo" width="51px" height="40px"/>
-              <Stack spacing="1">
-                <ConnectButton />
-              </Stack>
-            </Box>
-          </Container>
-        </Box>
+        <Container maxW="100%">
+          <Box
+            bg="bg.surface"
+            py="4"
+            boxShadow="sm"
+            borderRadius="lg"
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Image
+              src="/images/logo.png"
+              alt="Absurd Logo"
+              width="51px"
+              height="40px"
+            />
+            <Stack spacing="1">
+              <ConnectButton />
+            </Stack>
+          </Box>
+        </Container>
+      </Box>
 
       <Flex flex="1" direction="column" paddingBottom="80px">
-        <Container maxW={{ base: "90%", md: "80%", lg: "70%" }} py={{ base: "3", md: "6" }} paddingBottom="60px"> {/* Added paddingBottom */}
+        <Container
+          maxW={{ base: "90%", md: "80%", lg: "70%" }}
+          py={{ base: "3", md: "6" }}
+          paddingBottom="60px"
+        >
+          {" "}
+          {/* Added paddingBottom */}
           <Box bg="white" borderRadius="lg" p={5}>
             <Stack spacing={1}>
               <Stepper currentStep={activeStep} setStep={setActiveStep} />
-              {activeStep === 0 && <ScoringStep credit={credit} setCredit={setCredit} subStep={subStep} setSubStep={setSubStep} />}
+              {activeStep === 0 && (
+                <ScoringStep
+                  credit={credit}
+                  setCredit={setCredit}
+                  subStep={subStep}
+                  setSubStep={setSubStep}
+                />
+              )}
               {activeStep === 1 && <ProductsStep credit={credit} />}
               {activeStep === 2 && <EmailStep />}
             </Stack>
@@ -96,37 +122,36 @@ export default function Page() {
         </Container>
       </Flex>
 
-      <Flex
-            position="sticky"
-            bottom="0"
-            left="0"
-            right="0"
-            bg="white"
-            padding="4"
-            borderTop="1px solid"
-            borderColor="gray.200"
-            justifyContent="flex-end"
-            zIndex="100"
-            height="80px"
-            width="100%"
-            boxShadow="sm" 
+      {activeStep < 2 && credit && (
+        <Flex
+          bottom="0"
+          left="0"
+          right="0"
+          bg="white"
+          padding="4"
+          borderTop="1px solid"
+          borderColor="gray.200"
+          justifyContent="flex-end"
+          zIndex="100"
+          height="70px"
+          width="100%"
+          boxShadow="sm"
         >
-            <Container maxW={{ base: "90%", md: "80%", lg: "70%" }}>
-               <Flex justifyContent="flex-end">
-            {activeStep !== 2 && credit !== 0 && (
-                <Button
-                    size={buttonSize}
-                    rightIcon={<FiArrowRight />}
-                    colorScheme="teal"
-                    variant="outline"
-                    onClick={handleContinue}
-                >
-                    Continue
-                </Button>
-            )}
-                </Flex>
-              </Container>
+          <Container maxW={{ base: "90%", md: "80%", lg: "70%" }}>
+            <Flex justifyContent="flex-end">
+              <Button
+                size={buttonSize}
+                rightIcon={<FiArrowRight />}
+                colorScheme="teal"
+                variant="outline"
+                onClick={handleContinue}
+              >
+                Continue
+              </Button>
+            </Flex>
+          </Container>
         </Flex>
+      )}
     </Flex>
   );
-};
+}

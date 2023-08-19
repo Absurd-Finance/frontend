@@ -7,11 +7,13 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Flex,
   FormControl,
   FormHelperText,
   FormLabel,
-  Heading,
+  Grid,
   HStack,
+  Heading,
   Input,
   List,
   ListIcon,
@@ -28,17 +30,15 @@ import {
   useBreakpointValue,
   useColorModeValue,
   useDisclosure,
-  Grid,
-  Flex,
 } from "@chakra-ui/react";
-import { FiCheck, FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiCheck } from "react-icons/fi";
 
 interface LoanTermsProps {
   terms: string[];
 }
 
-const renderTerm = (term) => {
-  const parts = term.split('**');
+const renderTerm = (term: string) => {
+  const parts = term.split("**");
   return parts.map((part, index) => {
     if (index % 2 === 1) {
       return <strong key={index}>{part}</strong>;
@@ -58,40 +58,45 @@ const LoanTerms: React.FC<LoanTermsProps> = ({ terms }) => (
       ))}
     </List>
   </Box>
-);  
+);
 
 interface ProductCardProps {
   title: string;
-  price: number;
+  price: string;
   children: React.ReactNode;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ title, price, children }) => (
+const ProductCard: React.FC<ProductCardProps> = ({
+  title,
+  price,
+  children,
+}) => (
   <Card
-    bg="gray.100" 
+    bg="gray.100"
     boxShadow="lg"
     p={{ base: 3, md: 6 }}
-    borderRadius="md" 
+    borderRadius="md"
     width={{ base: "100%", md: "auto" }}
     mx="auto"
     m={[0, 0]}
   >
     <CardHeader>
-      <Heading 
-        size="lg" 
+      <Heading
+        size="lg"
         color={useColorModeValue("gray.700", "gray.300")}
         fontWeight="extrabold"
         fontSize={{ base: "2xl", md: "3xl" }}
         textTransform="uppercase"
       >
-        {title}</Heading>
+        {title}
+      </Heading>
     </CardHeader>
     <CardBody>
       <Stack spacing={3}>
         <Text
           color={useColorModeValue("gray.700", "gray.300")}
-          fontWeight="extrabold"
-          fontSize={{ base: "2xl", md: "3xl" }}
+          fontWeight="bold"
+          fontSize={{ base: "xl", md: "2xl" }}
           textTransform="uppercase"
           mb={0}
         >
@@ -102,43 +107,44 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, price, children }) => 
     </CardBody>
   </Card>
 );
-  
+
 interface ProductsStepProps {
   credit: number;
 }
 
-export const ProductsStep = ({ credit }) => {
+export const ProductsStep = ({ credit }: { credit: number }) => {
   const standardTerms = [
-    `**Generous Credit**: Tap into a generous ${credit * 10}€/mo revolving credit line`,
+    `**Generous Credit**: Tap into a generous ${
+      credit * 10
+    }€/mo revolving credit line`,
     "**Zero Hassles**: Transact globally with our Visa credit card without any transaction fees",
     "**Flexible Repayment**: Enjoy a 30-day free repayment, then only 20% APR on the balance",
-    "**Modern Finance**: Choose to repay in fiat or crypto — always with 0% conversion fees",
+    "**Free Offramp**: Choose to repay in fiat or crypto — always with 0% conversion fees",
     "**Build Your Credit**:  Boost your credit history with each purchase and repayment",
-    "**Rewarding Every Step**: Access exclusive perks and cashbacks with every transaction"
+    "**Rewarding Every Step**: Access exclusive perks and cashbacks with every transaction",
   ];
-  
+
   const metalTerms = ["Anything here"];
 
-  const minWidth = '320px';
-  
+  const minWidth = "320px";
+
   return (
     <>
-    <Box maxW="960px" margin="0 auto" p={{ base: 1, md: 2 }}>
-
-      <Flex 
-        flexWrap="wrap" 
-        justify="center"
-        justifyItems="center"
-        gap={0}
-      >
-        <ProductCard
+      <Box maxW="960px" margin="0 auto" p={{ base: 1, md: 2 }}>
+        <Flex
+          flexWrap="wrap"
+          justify="center"
+          justifyItems="center"
+          gap={0}
           minW={minWidth}
           flex="1"
-          title="Web3 Settlers' credit card"
-          price="For just 15"
         >
+          <ProductCard
+            title="Get the web3-first credit card"
+            price="For just 5"
+          >
             <LoanTerms terms={standardTerms} />
-        </ProductCard>
+          </ProductCard>
           {/*
         <ProductCard
           minW={minWidth}
@@ -149,9 +155,8 @@ export const ProductsStep = ({ credit }) => {
         />
           </ProductCard>
           */}
-
-      </Flex>
-    </Box>
+        </Flex>
+      </Box>
     </>
   );
 };

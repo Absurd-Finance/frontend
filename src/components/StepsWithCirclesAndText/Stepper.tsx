@@ -1,6 +1,7 @@
-import { Box, Container, Stack } from '@chakra-ui/react';
-import { Step } from './Step';
-import { steps } from './data';
+import { Box, Container, Stack } from "@chakra-ui/react";
+
+import { Step } from "./Step";
+import { steps } from "./data";
 
 interface AppProps {
   currentStep: number;
@@ -10,8 +11,8 @@ interface AppProps {
 export const Stepper: React.FC<AppProps> = ({ currentStep, setStep }) => {
   return (
     <Box bg="bg.surface">
-      <Container py={{ base: '4', md: '8' }}>
-        <Stack spacing="0" direction={{ base: 'column', md: 'row' }}>
+      <Container py={{ base: "4", md: "8" }}>
+        <Stack spacing="0" direction={{ base: "column", md: "row" }}>
           {steps.map((step, id) => (
             <Step
               key={id}
@@ -26,7 +27,6 @@ export const Stepper: React.FC<AppProps> = ({ currentStep, setStep }) => {
       </Container>
     </Box>
   );
-}
-
+};
 
 export default Stepper;

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { Providers, PHProvider, PostHogPageview } from "./providers";
+import { PHProvider, PostHogPageview, Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Absurd finance - App",

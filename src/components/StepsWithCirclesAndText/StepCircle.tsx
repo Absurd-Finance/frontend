@@ -1,5 +1,5 @@
-import { Circle, Icon, SquareProps } from '@chakra-ui/react';
-import { HiCheck } from 'react-icons/hi';
+import { Circle, Icon, SquareProps } from "@chakra-ui/react";
+import { HiCheck } from "react-icons/hi";
 
 interface RadioCircleProps extends SquareProps {
   isCompleted: boolean;
@@ -32,4 +32,4 @@ export const StepCircle = (props: RadioCircleProps) => {
       ) : null}
     </Circle>
   );
-}
+};

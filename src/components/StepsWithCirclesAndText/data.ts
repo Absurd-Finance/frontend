@@ -1,11 +1,11 @@
 export const steps = [
   {
-    title: 'Application',
+    title: "Application",
   },
   {
-    title: 'Plan',
+    title: "Plan",
   },
   {
-    title: 'Order',
+    title: "Order",
   },
-]
+];
