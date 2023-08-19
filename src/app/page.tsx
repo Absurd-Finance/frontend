@@ -15,11 +15,23 @@ import {
   StatLabel,
   StatNumber,
 } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import { Sidebar } from "@/components/Sidebar";
 
 export default function Page() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/onboarding");
+  }, [router]);
+
   return (
+    <Heading>Redirecting...</Heading>
+  )
+}
+/*
     <Sidebar>
       <Box as="section" py={{ base: "4", md: "8" }}>
         <Container>
@@ -45,7 +57,7 @@ export default function Page() {
     </Sidebar>
   );
 }
-
+*/
 /*
 export default function Home() {
   const { address, isConnecting, isDisconnected } = useAccount();

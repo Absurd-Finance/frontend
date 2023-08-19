@@ -33,7 +33,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
-import { usePostHog } from "../../app/providers";
+import { usePostHog } from "../providers";
 import { Stepper } from "../../components/StepsWithCirclesAndText/Stepper";
 import { EmailStep } from "./EmailStep";
 import { ProductsStep } from "./ProductsStep";
