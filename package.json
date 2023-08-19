@@ -8,12 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "browser": {
-    "fs": false,
-    "path": false,
-    "os": false,
-    "tls": false
-  },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",
     "@chakra-ui/react": "^2.8.0",
