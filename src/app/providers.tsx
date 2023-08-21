@@ -20,19 +20,8 @@ import { publicProvider } from "wagmi/providers/public";
 
 const PostHogContext = createContext(null);
 
-let posthogInstance: any;
-
-if (typeof window !== "undefined") {
-  import("posthog-js").then((posthogModule) => {
-    posthogInstance = posthogModule.default;
-    posthogInstance.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST!,
-    });
-  });
-}
-
 function PHProvider({ children }: { children: React.ReactNode }) {
-  const [posthog, setPosthog] = useState(posthogInstance);
+  const [posthog, setPosthog] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
