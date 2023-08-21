@@ -48,8 +48,8 @@ const renderTerm = (term: string) => {
 };
 
 const LoanTerms: React.FC<LoanTermsProps> = ({ terms }) => (
-  <Box mt="4">
-    <List spacing={2}>
+  <Box mt="2"> 
+    <List spacing={1}> 
       {terms.map((term, index) => (
         <ListItem key={index}>
           <ListIcon as={FiCheck} color="green.500" />
@@ -74,29 +74,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
   <Card
     bg="gray.100"
     boxShadow="lg"
-    p={{ base: 3, md: 6 }}
+    p={{ base: 1, md: 4 }}  // Further reduced padding for smaller screens
     borderRadius="md"
-    width={{ base: "100%", md: "auto" }}
+    width={{ base: "95%", sm: "90%", md: "auto" }} 
     mx="auto"
-    m={[0, 0]}
+    my={2}  
   >
     <CardHeader>
       <Heading
         size="lg"
         color={useColorModeValue("gray.700", "gray.300")}
         fontWeight="extrabold"
-        fontSize={{ base: "2xl", md: "3xl" }}
+        fontSize={{ base: "lg", md: "xl" }} 
         textTransform="uppercase"
       >
         {title}
       </Heading>
     </CardHeader>
     <CardBody>
-      <Stack spacing={3}>
+      <Stack spacing={2}>  // Reduced spacing
         <Text
           color={useColorModeValue("gray.700", "gray.300")}
           fontWeight="bold"
-          fontSize={{ base: "xl", md: "2xl" }}
+          fontSize={{ base: "md", md: "lg" }} 
           textTransform="uppercase"
           mb={0}
         >
@@ -135,8 +135,8 @@ export const ProductsStep = ({ credit }: { credit: number }) => {
           flexWrap="wrap"
           justify="center"
           justifyItems="center"
-          gap={0}
-          minW={minWidth}
+          gap={2}  
+          minW="280px"  
           flex="1"
         >
           <ProductCard

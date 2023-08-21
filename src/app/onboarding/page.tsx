@@ -103,7 +103,6 @@ export default function Page() {
           paddingBottom="60px"
         >
           {" "}
-          {/* Added paddingBottom */}
           <Box bg="white" borderRadius="lg" p={5}>
             <Stack spacing={1}>
               <Stepper currentStep={activeStep} setStep={setActiveStep} />
@@ -124,6 +123,7 @@ export default function Page() {
 
       {activeStep < 2 && credit && (
         <Flex
+          position="sticky"
           bottom="0"
           left="0"
           right="0"
