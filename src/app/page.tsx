@@ -27,9 +27,7 @@ export default function Page() {
     router.replace("/onboarding");
   }, [router]);
 
-  return (
-    <Heading>Redirecting...</Heading>
-  )
+  return <Heading>Redirecting...</Heading>;
 }
 /*
     <Sidebar>

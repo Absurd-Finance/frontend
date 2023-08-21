@@ -6,6 +6,7 @@ import {
   HStack,
   Heading,
   IconButton,
+  Img,
   Link,
   Skeleton,
   Stack,
@@ -34,6 +35,7 @@ import {
   useChainModal,
   useConnectModal,
 } from "@rainbow-me/rainbowkit";
+import { disconnect } from "@wagmi/core";
 import posthog from "posthog-js";
 import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
@@ -92,16 +94,27 @@ export const ScoringStep = ({
     },
   });
 
+  const getRandomNumberBetween = (min: number, max: number): number => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
+
+  const delay = (ms: number): Promise<void> => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
   const computeScore = async (address: Address) => {
     setIsLoading(true);
-    const result = 100; //await runScoringChecks(address, chains, QuoteCurrency.EUR);
+    const result = getRandomNumberBetween(70, 100); //await runScoringChecks(address, chains, QuoteCurrency.EUR);
 
     const obj = {
       address,
       score: Math.ceil(result),
     };
+    await delay(5000); // Wait for 5 seconds
+
     setWallets((wallets) => [...wallets, obj]);
     setCredit(obj.score);
+    await disconnect();
     setIsLoading(false);
   };
 
@@ -224,14 +237,24 @@ export const ScoringStep = ({
               </Tbody>
             </Table>
           </Box>
-          {addressExistsInWallets(address) ? (
-            <Button size={buttonSize} onClick={openAccountModal}>
-              Add another wallet
-            </Button>
+          {address ? (
+            <>
+              {addressExistsInWallets(address) ? (
+                <Button size={buttonSize} onClick={() => disconnect()}>
+                  Wallet already scored, reconnect with a new wallet
+                </Button>
+              ) : (
+                <>
+                  {!isLoading && (
+                    <Button size={buttonSize} onClick={() => signMessage()}>
+                      Score connected wallet
+                    </Button>
+                  )}
+                </>
+              )}
+            </>
           ) : (
-            <Button size={buttonSize} onClick={() => signMessage()}>
-              Add connected wallet
-            </Button>
+            <CustomConnectButton />
           )}
         </Stack>
       ) : (
@@ -243,5 +266,48 @@ export const ScoringStep = ({
         </Stack>
       )}
     </Box>
+  );
+};
+
+const CustomConnectButton = () => {
+  return (
+    <ConnectButton.Custom>
+      {({
+        account,
+        chain,
+        openAccountModal,
+        openChainModal,
+        openConnectModal,
+        authenticationStatus,
+        mounted,
+      }) => {
+        // Note: If your app doesn't use authentication, you
+        // can remove all 'authenticationStatus' checks
+        const ready = mounted && authenticationStatus !== "loading";
+        const connected =
+          ready &&
+          account &&
+          chain &&
+          (!authenticationStatus || authenticationStatus === "authenticated");
+
+        if (!connected) {
+          return (
+            <Button textAlign="start" onClick={openConnectModal}>
+              Connect your wallet to score it
+            </Button>
+          );
+        }
+
+        if (chain.unsupported) {
+          return (
+            <Box textAlign="start" onClick={openChainModal}>
+              Chain Not Supported
+            </Box>
+          );
+        }
+
+        return <Button>Wallet Connected</Button>;
+      }}
+    </ConnectButton.Custom>
   );
 };

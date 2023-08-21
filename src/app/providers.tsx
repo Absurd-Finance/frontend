@@ -105,7 +105,7 @@ function Providers({ children }: { children: React.ReactNode }) {
   });
 
   const wagmiConfig = createConfig({
-    autoConnect: true,
+    autoConnect: false,
     connectors,
     publicClient,
   });
