@@ -92,16 +92,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </Heading>
     </CardHeader>
     <CardBody>
+<<<<<<< HEAD
       <Stack spacing={2}>  // Reduced spacing
         <Text
           color={useColorModeValue("gray.700", "gray.300")}
           fontWeight="bold"
           fontSize={{ base: "md", md: "lg" }} 
+=======
+      <Stack spacing={3}>
+        <HStack
+          color={useColorModeValue("gray.700", "gray.300")}
+          fontWeight="bold"
+>>>>>>> f30d7a9 (6 months free)
           textTransform="uppercase"
           mb={0}
         >
-          {price}&euro;/mo
-        </Text>
+          <Text textDecoration="line-through" fontSize={{ base: "md", md: "xl" }}>{price}&euro;/mo</Text>
+          <Text fontSize={{ base: "xl", md: "2xl" }}>6/mo free!</Text>
+        </HStack>
         {children}
       </Stack>
     </CardBody>
@@ -116,7 +124,7 @@ export const ProductsStep = ({ credit }: { credit: number }) => {
   const standardTerms = [
     `**Generous Credit**: Tap into a generous ${
       credit * 10
-    }€/mo revolving credit line`,
+    }€/mo plafond revolving credit line`,
     "**Zero Hassles**: Transact globally with our Visa credit card without any transaction fees",
     "**Flexible Repayment**: Enjoy a 30-day free repayment, then only 20% APR on the balance",
     "**Free Offramp**: Choose to repay in fiat or crypto — always with 0% conversion fees",
