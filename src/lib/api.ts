@@ -168,7 +168,7 @@ export async function getPrice(slug: string, currency: QuoteCurrency): Promise<n
     localization: false,
     market_data: true,
   };
-  let data: any = await CoinGeckoClient.coins.fetch(slug, params);
+  const data: any = await CoinGeckoClient.coins.fetch(slug, params);
 
   return data['data']['market_data']['current_price'][currency.toLowerCase()] || 0;
 }

@@ -33,7 +33,7 @@ const getUserBalance = async (bearerToken: string): Promise<number> => {
   });
 
   try {
-    const response = await fetch(COINBASE_ENDPOINT, { method: 'GET', headers: headers });
+    const response = await fetch(COINBASE_ENDPOINT, { method: 'GET', headers });
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

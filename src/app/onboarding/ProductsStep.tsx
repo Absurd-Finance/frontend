@@ -92,18 +92,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </Heading>
     </CardHeader>
     <CardBody>
-<<<<<<< HEAD
-      <Stack spacing={2}>  // Reduced spacing
-        <Text
-          color={useColorModeValue("gray.700", "gray.300")}
-          fontWeight="bold"
-          fontSize={{ base: "md", md: "lg" }} 
-=======
-      <Stack spacing={3}>
+      <Stack spacing={2}>
         <HStack
           color={useColorModeValue("gray.700", "gray.300")}
           fontWeight="bold"
->>>>>>> f30d7a9 (6 months free)
+          fontSize={{ base: "md", md: "lg" }} 
           textTransform="uppercase"
           mb={0}
         >

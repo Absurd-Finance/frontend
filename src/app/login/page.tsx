@@ -22,7 +22,7 @@ export default function LoginPage() {
       market_data: true,
     };
     const CoinGeckoClient = new CoinGecko();
-    let data = await CoinGeckoClient.coins.fetch("bitcoin", params);
+    const data = await CoinGeckoClient.coins.fetch("bitcoin", params);
     console.log(data["data"]["market_data"]["current_price"]["usd"]);
   };
 
