@@ -4,6 +4,7 @@ import { CacheProvider } from "@chakra-ui/next-js";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
+import { SessionProvider } from "next-auth/react";
 import { createContext, useContext, useEffect } from "react";
 import { useState } from "react";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
@@ -100,13 +101,15 @@ function Providers({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains} showRecentTransactions={true}>
-        <CacheProvider>
-          <ChakraProvider>{children}</ChakraProvider>
-        </CacheProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <SessionProvider>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider chains={chains} showRecentTransactions={true}>
+          <CacheProvider>
+            <ChakraProvider>{children}</ChakraProvider>
+          </CacheProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </SessionProvider>
   );
 }
 

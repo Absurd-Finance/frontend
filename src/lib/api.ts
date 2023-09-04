@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Address } from "viem";
+import CoinGecko from 'coingecko-api';
 
 const COVALENT_API_KEY = process.env.COVALENT_API_KEY;
 const COVALENT_URL = 'https://api.covalenthq.com/v1';
@@ -156,4 +157,18 @@ export async function isWalletSanctioned(address: string): Promise<boolean> {
     timeout: 10000
   });
   return (response.data.identifications.length !== 0);
+}
+
+
+export async function getPrice(slug: string, currency: QuoteCurrency): Promise<number> {
+  const CoinGeckoClient = new CoinGecko();
+  const params = {
+    tickers: false,
+    developer_data: false,
+    localization: false,
+    market_data: true,
+  };
+  let data: any = await CoinGeckoClient.coins.fetch(slug, params);
+
+  return data['data']['market_data']['current_price'][currency.toLowerCase()] || 0;
 }
