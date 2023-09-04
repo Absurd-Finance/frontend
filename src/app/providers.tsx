@@ -27,7 +27,7 @@ function PHProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       import("posthog-js").then((posthogModule) => {
-        const ph = posthogModule.default;
+        const ph: any = posthogModule.default;
         ph.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
           api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST!,
         });
